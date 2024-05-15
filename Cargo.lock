@@ -32,11 +32,27 @@ dependencies = [
 ]
 
 [[package]]
-name = "nveo"
+name = "file-mode"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "773ea145485772b8d354624b32adbe20e776353d3e48c7b03ef44e3455e9815c"
+dependencies = [
+ "libc",
+]
+
+[[package]]
+name = "libc"
+version = "0.2.154"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ae743338b92ff9146ce83992f766a31066a91a8c84a45e0e9f21e7cf6de6d346"
+
+[[package]]
+name = "nevo"
 version = "0.1.0"
 dependencies = [
  "byteorder",
  "cpio",
+ "file-mode",
  "ruzstd",
 ]
 

@@ -5,6 +5,7 @@ use std::io::prelude::*;
 use std::io::SeekFrom;
 use std::path::Path;
 
+use file_mode::ModePath;
 use byteorder::{BigEndian, ReadBytesExt};
 
 const BW_TRAILER_V1_LENGTH: i64 = 48;
@@ -54,14 +55,18 @@ fn extract_all(mut f: &File, trailer: Trailer) -> Result<(), Box<dyn Error>> {
 
                 let out_path = path.join(reader.entry().name());
 
+                let mode = reader.entry().mode();
+
                 if reader.entry().file_size() == 0 {
                     if !out_path.is_dir() {
-                        fs::create_dir_all(out_path)?;
+                        fs::create_dir_all(&out_path)?;
+                        out_path.set_mode(mode).unwrap();
                     }
                     decoder = reader.finish().unwrap();
                 } else {
                     let out = std::fs::File::create(&out_path).unwrap();
                     decoder = reader.to_writer(out).unwrap();
+                    out_path.set_mode(mode).unwrap();
                 }
             }
         }
